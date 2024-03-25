@@ -59,5 +59,84 @@
    ![image](https://github.com/Mauricio-A-Monroy/Lab6-CVDS/assets/111905757/1151575b-1cdc-4011-af8e-2ccf33eac7bd)
  
 
+# Parte II - Despliegue app web spring MVC (o spring-boot backend)
 
+## Ejercicio 1: Creacion de base de datos en Azure
+1. Inicie Azure Cloud Shell desde el portal. Para implementar en un grupo de recursos, ingrese el siguiente comando
+2. Para crear un plan de servicio de aplicaciones (App service plan)
+3. Finalmente, cree el servidor MySQL con un nombre de servidor único.
+![image](https://github.com/Mauricio-A-Monroy/Lab6-CVDS/assets/111905757/8b852fba-fe41-46c6-9286-3e164aa037a3)
+
+4. Navegue hasta el grupo de recursos que ha creado. Debería ver un servidor Azure Database for MySQL server aprovisionado. Seleccione el servidor de base de datos.
+![image](https://github.com/Mauricio-A-Monroy/Lab6-CVDS/assets/111905757/5a13a623-50fc-421e-8366-9890dd3bfa0e)
+
+5. Seleccione Overview. Guarde el Server name y el Server admin login name en un bloc de notas.
+![image](https://github.com/Mauricio-A-Monroy/Lab6-CVDS/assets/111905757/8b48addd-bfea-4cc5-96cb-661bc04d909c)
+
+6. Seleccione Overview. Habilite la opción Allow access to Azure services y guarde los cambios. Esto proporciona acceso a los servicios de Azure para todas las bases de datos de su servidor MySQL.
+![image](https://github.com/Mauricio-A-Monroy/Lab6-CVDS/assets/111905757/a8e5cd86-a0ea-49ac-b54f-d55bd8d6e2e5)
+
+## Ejercicio 2: actualización de la configuración de la aplicación web
+
+a. Antes de seguir el tutorial, debe crear una Web App, nos metemos en "App Services", luego seleccionamos "create" y "Web App" .
+![image](https://github.com/Mauricio-A-Monroy/Lab6-CVDS/assets/111905757/1e3b7e31-2ad2-4e52-89f6-4e58458b380e)
+
+b. Aquí ponemos un nombre y dejamos los valores del "Runtime stack" como aparecen en la foto, luego dejamos plan de precios en la opción gratis y luego damos en "Review + create" .
+![image](https://github.com/Mauricio-A-Monroy/Lab6-CVDS/assets/111905757/61a66c2f-9c4f-4bde-9ff7-47677e398805)
+![image](https://github.com/Mauricio-A-Monroy/Lab6-CVDS/assets/111905757/927d2f8e-f8ca-4e4f-891f-906960167355)
+
+c. Por último damos en "Create" y esperamos a que el proceso termine.
+![image](https://github.com/Mauricio-A-Monroy/Lab6-CVDS/assets/111905757/e2573742-4dfe-4f5e-ae29-4b22e8e5027d)
+
+d. Luego de que termine le daremos en la opción de "Go to resource" .
+![image](https://github.com/Mauricio-A-Monroy/Lab6-CVDS/assets/111905757/4b76b301-25fb-4d32-993b-ed3bd0b1001f)
+
+
+Ahora si podemos seguir el tutorial:
+
+1. Seleccione Configuration. Establezca Stack settings como se muestra en la imagen a continuación y haga clic en Guardar.
+![image](https://github.com/Mauricio-A-Monroy/Lab6-CVDS/assets/111905757/a818910e-2ee1-4e70-ba6a-ba450e41e843)
+
+2. Seleccione Overview y click en Browse.
+![image](https://github.com/Mauricio-A-Monroy/Lab6-CVDS/assets/111905757/c0bc31be-16fd-4baf-b2bc-587677af15fc)
+
+3. La página web se verá como la imagen de abajo.
+![image](https://github.com/Mauricio-A-Monroy/Lab6-CVDS/assets/111905757/c5e481e6-aa0d-4842-a665-3563e2fbb17c)
+
+4. Desde Azure Portal, seleccione la aplicación web que aprovisionó. Ir a Configuración | Configuración de la aplicación | Cadenas de conexión y haga clic en + Nueva cadena de conexión.
+![image](https://github.com/Mauricio-A-Monroy/Lab6-CVDS/assets/111905757/07fb54da-1685-4512-8a82-5f8ac8cfcac8)
+
+5. En la ventana Agregar/Editar cadena de conexión, agregue una nueva cadena de conexión MySQL con MyDatabase como nombre, pegue la siguiente cadena para el valor y reemplace MySQL Server Name, su nombre de usuario y su contraseña con los valores apropiados. Haga clic en Actualizar.
+
+```
+jdbc:mysql://{MySQL Server Name}:3306/alm?useSSL=true&requireSSL=false&autoReconnect=true&user={your user name}&password={your password}
+```
+![image](https://github.com/Mauricio-A-Monroy/Lab6-CVDS/assets/111905757/84b9a95d-8a84-4e09-9f7b-09aa0a7ba0b9)
+
+6. Haga clic en Guardar para guardar la cadena de conexión.
+
+## Ejercicio 3: actualización de la configuración de la aplicación web
+
+- Configuración de la base de datos:
+![image](https://github.com/Mauricio-A-Monroy/Lab6-CVDS/assets/111905757/29195922-3bbb-4826-a079-20e4446510b1)
+
+- Configuración del servicio FTP en la aplicación web, escribir el siguiente comando en "Startup command".
+```
+  java -jar /home/site/wwwroot/app.jar -- server.port=80
+```
+![image](https://github.com/Mauricio-A-Monroy/Lab6-CVDS/assets/111905757/4222ceab-9bec-4ac7-9fc5-51c88be3eb10)
+
+luego de configurar esto, vamos a clonar el repositorio https://github.com/PDSW-ECI/spring-mvc-with-bootstrap,luego lo copilaremos para obtener un archivo .jar, es importante cambiar el nombre de este archivo por "app.jar", este archivo estará en la carpeta target del p 
+![image](https://github.com/Mauricio-A-Monroy/Lab6-CVDS/assets/111905757/41a51ee6-6028-4f32-ba0c-22d453a13213)
+![image](https://github.com/Mauricio-A-Monroy/Lab6-CVDS/assets/111905757/bff03849-1dd0-4961-b1a7-fae5c4fe6e86)
+![image](https://github.com/Mauricio-A-Monroy/Lab6-CVDS/assets/111905757/e2e78ef2-869d-40e8-b242-75dae8bc7bd1)
+
+Una vez tengamos este jar, lo que haremos es iniciar un FTP Client, en este caso lo haremos con la ayuda de WinSCP, para ver nuestras credenciales debemos ir a la opción "Deployment Center" en la parte de "FTPS credentials"
+![image](https://github.com/Mauricio-A-Monroy/Lab6-CVDS/assets/111905757/0840ecaa-75cd-4dcb-8554-87c9ec649c6c)
+
+Abrimos WinSCP, iniciamos sesion con nuestras credenciales, luego buscamos el directorio donde está el archivo .jar que generamos anteriormente y lo arrastramos a la parte del servidor.
+![image](https://github.com/Mauricio-A-Monroy/Lab6-CVDS/assets/111905757/d12d9754-eb03-4fd3-8d18-94c078468b98)
+
+
+ 
 
